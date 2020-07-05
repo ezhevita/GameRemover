@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Composition.AttributedModel" Version="1.4.1" />
+		<ProjectReference Include="..\..\..\ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj" />
+	</ItemGroup>
+
+</Project>
