@@ -12,7 +12,7 @@
 		<PackageReference Include="AngleSharp" Version="*" IncludeAssets="compile" />
 		<PackageReference Include="JetBrains.Annotations" Version="*" IncludeAssets="compile" />
 		<PackageReference Include="System.Composition.AttributedModel" Version="*" IncludeAssets="compile" />
-		<ProjectReference Include="..\ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj" Private="false" ExcludeAssets="compile" />
+		<ProjectReference Include="..\ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj" Private="false" ExcludeAssets="all" />
 	</ItemGroup>
 
 </Project>
