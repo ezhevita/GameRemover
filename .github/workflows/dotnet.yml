@@ -1,0 +1,35 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build with .NET Core
+      run: dotnet publish -c Release -f net5.0 -o out/generic
+    - name: Build with .NET Framework
+      run: dotnet publish -c Release -f net48 -o out/generic-netf
+    - name: Upload generic artifacts
+      uses: actions/upload-artifact@v1
+      with: 
+        name: ${{ github.event.repository.name }}-generic
+        path: out/generic 
+    - name: Upload generic-netf artifacts
+      uses: actions/upload-artifact@v1
+      with: 
+        name: ${{ github.event.repository.name }}-generic-netf
+        path: out/generic-netf
