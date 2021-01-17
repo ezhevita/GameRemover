@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital7.GameRemover", "Vital7.GameRemover\Vital7.GameRemover.csproj", "{0B254C0E-94C8-4546-AD71-DEBA432C258B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameRemover", "GameRemover\GameRemover.csproj", "{0B254C0E-94C8-4546-AD71-DEBA432C258B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
