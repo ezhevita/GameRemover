@@ -18,7 +18,7 @@ namespace GameRemover {
 	[UsedImplicitly]
 	public class GameRemover : IBotCommand {
 		public void OnLoaded() {
-			ASF.ArchiLogger.LogGenericInfo(nameof(GameRemover) + " is loaded!");
+			ASF.ArchiLogger.LogGenericInfo(nameof(GameRemover) + " by Vital7 | Support & source code: https://github.com/Vital7/GameRemover");
 		}
 
 		public string Name => nameof(GameRemover);
