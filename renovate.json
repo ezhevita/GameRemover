@@ -1,0 +1,13 @@
+{
+  "extends": [
+    "config:base",
+    ":assignee(Vital7)",
+    ":automergeDigest",
+    ":automergeMinor",
+    ":label(Automatic)",
+    "schedule:weekly"
+  ],
+  "git-submodules": {
+    "enabled": true
+  }
+}
