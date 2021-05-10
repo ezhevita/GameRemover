@@ -27,12 +27,12 @@ jobs:
     - name: Build with .NET Framework
       run: dotnet publish -c Release -f net48 -o out/generic-netf
     - name: Upload generic artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with: 
         name: ${{ github.event.repository.name }}-generic
         path: out/generic 
     - name: Upload generic-netf artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with: 
         name: ${{ github.event.repository.name }}-generic-netf
         path: out/generic-netf
