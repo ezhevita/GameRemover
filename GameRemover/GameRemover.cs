@@ -6,10 +6,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
-using ArchiSteamFarm;
-using ArchiSteamFarm.Json;
+using ArchiSteamFarm.Core;
 using ArchiSteamFarm.Localization;
-using ArchiSteamFarm.Plugins;
+using ArchiSteamFarm.Plugins.Interfaces;
+using ArchiSteamFarm.Steam;
+using ArchiSteamFarm.Steam.Data;
+using ArchiSteamFarm.Steam.Integration;
+using ArchiSteamFarm.Steam.Interaction;
+using ArchiSteamFarm.Steam.Storage;
 using JetBrains.Annotations;
 
 namespace GameRemover {
@@ -42,7 +46,8 @@ namespace GameRemover {
 			}
 			
 			const string requestDeleteGamePage = "/en/wizard/HelpWithGameIssue/?appid={0}&issueid=123";
-			using IDocument? responseDeleteGamePage = (await bot.ArchiWebHandler.UrlGetToHtmlDocumentWithSession(ArchiWebHandler.SteamHelpURL, string.Format(CultureInfo.InvariantCulture, requestDeleteGamePage, appID)).ConfigureAwait(false))?.Content;
+			Uri uriDeleteGamePage = new(ArchiWebHandler.SteamHelpURL, string.Format(CultureInfo.InvariantCulture, requestDeleteGamePage, appID));
+			using IDocument? responseDeleteGamePage = (await bot.ArchiWebHandler.UrlGetToHtmlDocumentWithSession(uriDeleteGamePage).ConfigureAwait(false))?.Content;
 			if (responseDeleteGamePage == null) {
 				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorObjectIsNull, nameof(responseDeleteGamePage)));
 			}
@@ -62,7 +67,7 @@ namespace GameRemover {
 			};
 
 			const string requestDeleteGame = "/en/wizard/AjaxDoPackageRemove";
-			Steam.BooleanResponse? responseDeleteGame = (await bot.ArchiWebHandler.UrlPostToJsonObjectWithSession<Steam.BooleanResponse>(ArchiWebHandler.SteamHelpURL, requestDeleteGame, data: data, referer: $"https://help.steampowered.com/en/wizard/HelpWithGameIssue/?appid={appID}&issueid=123").ConfigureAwait(false))?.Content;
+			BooleanResponse? responseDeleteGame = (await bot.ArchiWebHandler.UrlPostToJsonObjectWithSession<BooleanResponse>(new Uri(ArchiWebHandler.SteamHelpURL, requestDeleteGame), data: data, referer: uriDeleteGamePage).ConfigureAwait(false))?.Content;
 
 			return bot.Commands.FormatBotResponse(responseDeleteGame?.Success == true ? Strings.Success : Strings.WarningFailed);
 		}
