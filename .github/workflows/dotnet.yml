@@ -62,9 +62,11 @@ jobs:
       - name: Archive generic release
         uses: thedoctor0/zip-release@master
         with:
+          directory: out/generic
           path: out/generic
           type: 'zip'
           filename: 'out/generic.zip'
+          exclusions: '*.json'
 
       - name: Upload generic artifacts
         uses: actions/upload-artifact@v2
