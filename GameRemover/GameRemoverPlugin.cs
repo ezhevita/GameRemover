@@ -20,17 +20,45 @@ namespace GameRemover {
 	// ReSharper disable once UnusedMember.Global
 	[Export(typeof(IPlugin))]
 	[UsedImplicitly]
-	public class GameRemover : IBotCommand {
+	public class GameRemoverPlugin : IBotCommand {
 		public void OnLoaded() {
-			ASF.ArchiLogger.LogGenericInfo(nameof(GameRemover) + " by Vital7 | Support & source code: https://github.com/Vital7/GameRemover");
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			string repository = assembly
+				.GetCustomAttributes<AssemblyMetadataAttribute>()
+				.First(x => x.Key == "RepositoryUrl")
+				.Value ?? throw new InvalidOperationException(nameof(AssemblyMetadataAttribute));
+
+			const string git = ".git";
+			int index = repository.IndexOf(git, StringComparison.Ordinal);
+			if (index >= 0) {
+				repository = repository[..(index + 1)];
+			}
+
+			string company = assembly
+				.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company ?? throw new InvalidOperationException(nameof(AssemblyCompanyAttribute));
+
+			ASF.ArchiLogger.LogGenericInfo(Name + " by " + company + " | Support & source code: " + repository);
 		}
 
 		public string Name => nameof(GameRemover);
 		public Version Version => Assembly.GetExecutingAssembly().GetName().Version ?? throw new InvalidOperationException(nameof(Version));
 
+		[CLSCompliant(false)]
 		public async Task<string?> OnBotCommand(Bot bot, ulong steamID, string message, string[] args) {
+			if (bot == null) {
+				throw new ArgumentNullException(nameof(bot));
+			}
+
+			if (string.IsNullOrEmpty(message)) {
+				throw new ArgumentNullException(nameof(message));
+			}
+
+			if (args == null) {
+				throw new ArgumentNullException(nameof(args));
+			}
+			
 			return args[0].ToUpperInvariant() switch {
-				"DELETEGAME" when args.Length > 2 => await ResponseDeleteGame(steamID, args[1], args[2]),
+				"DELETEGAME" when args.Length > 2 => await ResponseDeleteGame(steamID, args[1], args[2]).ConfigureAwait(false),
 				"DELETEGAME" when args.Length > 1 => await ResponseDeleteGame(bot, steamID, args[1]).ConfigureAwait(false),
 				_ => null
 			};

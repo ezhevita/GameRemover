@@ -1,0 +1,13 @@
+<Project>
+
+	<ItemGroup>
+		<PackageVersion Include="AngleSharp" Version="0.14.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<PackageVersion Include="IndexRange" Version="1.0.0" />
+	</ItemGroup>
+
+	<Import Project="ArchiSteamFarm/Directory.Packages.props" />
+
+</Project>

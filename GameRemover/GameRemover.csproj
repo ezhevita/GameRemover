@@ -1,18 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<AssemblyVersion>1.1.0.0</AssemblyVersion>
-		<FileVersion>1.1.0.0</FileVersion>
-		<Nullable>enable</Nullable>
-		<TargetFrameworks>net5.0;net48</TargetFrameworks>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
-
 	<ItemGroup>
-		<PackageReference Include="AngleSharp" Version="*" IncludeAssets="compile" />
-		<PackageReference Include="JetBrains.Annotations" Version="*" IncludeAssets="compile" />
-		<PackageReference Include="System.Composition.AttributedModel" Version="*" IncludeAssets="compile" />
+		<PackageReference Include="AngleSharp" IncludeAssets="compile" />
+		<PackageReference Include="JetBrains.Annotations" IncludeAssets="compile" />
+		<PackageReference Include="System.Composition.AttributedModel" IncludeAssets="compile" />
 		<ProjectReference Include="..\ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj" Private="false" ExcludeAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<PackageReference Include="IndexRange" IncludeAssets="compile" />
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,17 @@
+<Project>
+
+	<PropertyGroup>
+		<ApplicationIcon/>
+		<Authors>Vital7</Authors>
+		<Company>$(Authors)</Company>
+		<Copyright>Copyright © $(Company) 2020-$([System.DateTime]::UtcNow.Year)</Copyright>
+		<PackageIcon/>
+		<PackageProjectUrl>https://github.com/$(Company)/$(MSBuildProjectName)</PackageProjectUrl>
+		<PackageReleaseNotes>$(PackageProjectUrl)/releases</PackageReleaseNotes>
+		<PublicSign>false</PublicSign>
+		<OutputType>Library</OutputType>
+		<RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+		<SignAssembly>false</SignAssembly>
+	</PropertyGroup>
+
+</Project>

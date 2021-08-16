@@ -1,38 +1,120 @@
 name: .NET
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [ push, pull_request ]
 
 env:
   DOTNET_SDK_VERSION: 5.0.x
 
 jobs:
-  build:
+  build-generic-netf:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Checkout submodules
       run: git submodule update --init --recursive
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build with .NET Core
-      run: dotnet publish -c Release -f net5.0 -o out/generic
+
     - name: Build with .NET Framework
       run: dotnet publish -c Release -f net48 -o out/generic-netf
-    - name: Upload generic artifacts
-      uses: actions/upload-artifact@v2
-      with: 
-        name: ${{ github.event.repository.name }}-generic
-        path: out/generic 
+
+    - name: Archive generic-netf release
+      uses: thedoctor0/zip-release@master
+      with:
+        files: out/generic-netf
+        type: 'zip'
+        filename: 'out/generic-netf.zip'
+
     - name: Upload generic-netf artifacts
       uses: actions/upload-artifact@v2
       with: 
         name: ${{ github.event.repository.name }}-generic-netf
-        path: out/generic-netf
+        path: out/generic-netf.zip
+
+  build-generic:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build with .NET Core
+        run: dotnet publish -c Release -f net5.0 -o out/generic
+
+      - name: Archive generic release
+        uses: thedoctor0/zip-release@master
+        with:
+          files: out/generic
+          type: 'zip'
+          filename: 'out/generic.zip'
+
+      - name: Upload generic artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.event.repository.name }}-generic
+          path: out/generic.zip
+
+  release:
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') }}
+    needs: [build-generic-netf, build-generic]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download generic artifacts
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: ${{ github.event.repository.name }}-generic
+          path: out
+
+      - name: Download generic-netf artifacts
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: ${{ github.event.repository.name }}-generic-netf
+          path: out
+
+      - name: Create GitHub release
+        id: github_release
+        uses: actions/create-release@v1.1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.event.repository.name }} V${{ github.ref }}
+
+      - name: Upload generic artifacts to GitHub release
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.github_release.outputs.upload_url }}
+          asset_path: out/generic.zip
+          asset_name: generic.zip
+          asset_content_type: application/zip
+
+      - name: Upload generic-netf artifacts to GitHub release
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.github_release.outputs.upload_url }}
+          asset_path: out/generic-netf.zip
+          asset_name: generic-netf.zip
+          asset_content_type: application/zip
