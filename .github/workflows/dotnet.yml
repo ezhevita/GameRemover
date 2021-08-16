@@ -29,7 +29,7 @@ jobs:
     - name: Archive generic-netf release
       uses: thedoctor0/zip-release@master
       with:
-        files: out/generic-netf
+        path: out/generic-netf
         type: 'zip'
         filename: 'out/generic-netf.zip'
 
@@ -62,7 +62,7 @@ jobs:
       - name: Archive generic release
         uses: thedoctor0/zip-release@master
         with:
-          files: out/generic
+          path: out/generic
           type: 'zip'
           filename: 'out/generic.zip'
 
