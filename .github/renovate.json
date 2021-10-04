@@ -2,8 +2,10 @@
   "extends": [
     "config:base",
     ":assignee(Vital7)",
+    ":automergeBranch",
     ":automergeDigest",
     ":automergeMinor",
+    ":disableDependencyDashboard",
     ":label(Automatic)",
     "schedule:weekly"
   ],
