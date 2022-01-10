@@ -7,6 +7,6 @@ ASF plugin to remove games from account.
 
 ## Commands
 
-Command | Access | Description
---- | --- | ---
-`deletegame [Bots] {AppID}` | `Master` | Removes game `appID` from the given bot instances.
+| Command                     | Access   | Description                                        |
+|-----------------------------|----------|----------------------------------------------------|
+| `deletegame [Bots] {AppID}` | `Master` | Removes game `appID` from the given bot instances. |

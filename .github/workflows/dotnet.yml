@@ -3,7 +3,7 @@ name: .NET
 on: [ push, pull_request ]
 
 env:
-  DOTNET_SDK_VERSION: 5.0.x
+  DOTNET_SDK_VERSION: 6.0.x
 
 jobs:
   build-generic:
@@ -24,7 +24,7 @@ jobs:
         run: dotnet restore
 
       - name: Build with .NET Core
-        run: dotnet publish -c Release -f net5.0 -o out/${{ github.event.repository.name }}-generic
+        run: dotnet publish -c Release -f net6.0 -o out/${{ github.event.repository.name }}-generic
 
       - name: Upload generic artifacts
         uses: actions/upload-artifact@v2

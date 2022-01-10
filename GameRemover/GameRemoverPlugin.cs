@@ -21,23 +21,11 @@ namespace GameRemover {
 	[Export(typeof(IPlugin))]
 	[UsedImplicitly]
 	public class GameRemoverPlugin : IBotCommand {
-		public void OnLoaded() {
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			string repository = assembly
-				.GetCustomAttributes<AssemblyMetadataAttribute>()
-				.First(x => x.Key == "RepositoryUrl")
-				.Value ?? throw new InvalidOperationException(nameof(AssemblyMetadataAttribute));
+		public Task OnLoaded()
+		{
+			ASF.ArchiLogger.LogGenericInfo($"{Name} by Vital7 | Support & source code: https://github.com/Vital7/{Name}");
 
-			const string git = ".git";
-			int index = repository.IndexOf(git, StringComparison.Ordinal);
-			if (index >= 0) {
-				repository = repository[..(index + 1)];
-			}
-
-			string company = assembly
-				.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company ?? throw new InvalidOperationException(nameof(AssemblyCompanyAttribute));
-
-			ASF.ArchiLogger.LogGenericInfo(Name + " by " + company + " | Support & source code: " + repository);
+			return Task.CompletedTask;
 		}
 
 		public string Name => nameof(GameRemover);
