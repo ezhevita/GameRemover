@@ -5,7 +5,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-		<PackageVersion Include="IndexRange" Version="1.0.0" />
+		<PackageVersion Include="IndexRange" Version="1.0.1" />
 	</ItemGroup>
 
 	<Import Project="ArchiSteamFarm/Directory.Packages.props" />
