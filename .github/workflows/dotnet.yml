@@ -27,7 +27,7 @@ jobs:
         run: dotnet publish -c Release -f net6.0 -o out/${{ github.event.repository.name }}-generic
 
       - name: Upload generic artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-generic
           path: out/${{ github.event.repository.name }}-generic
@@ -53,7 +53,7 @@ jobs:
         run: dotnet publish -c Release -f net48 -o out/${{ github.event.repository.name }}-generic-netf
 
       - name: Upload generic-netf artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-generic-netf
           path: out/${{ github.event.repository.name }}-generic-netf
