@@ -31,8 +31,12 @@ public class GameRemoverPlugin : IBotCommand2 {
 	public string Name => nameof(GameRemover);
 	public Version Version => Assembly.GetExecutingAssembly().GetName().Version ?? throw new InvalidOperationException(nameof(Version));
 
+	[CLSCompliant(false)]
 	public Task<string?> OnBotCommand(Bot bot, EAccess access, string message, string[] args, ulong steamID = 0)
 	{
+		ArgumentNullException.ThrowIfNull(bot);
+		ArgumentNullException.ThrowIfNull(args);
+
 		return args[0].ToUpperInvariant() switch {
 			"DELETEGAME" when args.Length > 2 => ResponseDeleteGame(steamID, access, args[1], args[2]),
 			"DELETEGAME" when args.Length > 1 => ResponseDeleteGame(bot, access, args[1]),
