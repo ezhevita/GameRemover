@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<ApplicationIcon/>
-		<Authors>Vital7</Authors>
+		<Authors>ezhevita</Authors>
 		<Company>$(Authors)</Company>
 		<Copyright>Copyright © $(Company) 2020-$([System.DateTime]::UtcNow.Year)</Copyright>
 		<PackageIcon/>
