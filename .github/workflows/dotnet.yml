@@ -7,7 +7,7 @@ env:
 
 jobs:
   build-generic:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -48,6 +48,9 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
+
+      - name: Disable local packages source
+        run: dotnet nuget disable source "Microsoft Visual Studio Offline Packages"
 
       - name: Build with .NET Framework
         run: dotnet publish -c Release -f net48 -o out/${{ github.event.repository.name }}-generic-netf
