@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using ArchiSteamFarm.Core;
 using ArchiSteamFarm.Localization;
 using ArchiSteamFarm.Plugins.Interfaces;
@@ -73,7 +74,7 @@ public class GameRemoverPlugin : IBotCommand2
 				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorObjectIsNull, nameof(responseDeleteGamePage)));
 			}
 
-			var node = responseDeleteGamePage.SelectSingleNode("//input[@id='packageid']");
+			var node = responseDeleteGamePage.SelectSingleNode<IElement>("//input[@id='packageid']");
 			if (node == null)
 			{
 				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorObjectIsNull, nameof(node)));
