@@ -1,6 +1,9 @@
 name: .NET
 
-on: [ push, pull_request ]
+on:
+  pull_request:
+  push:
+    branches: main
 
 env:
   DOTNET_SDK_VERSION: 6.0.x
@@ -53,7 +56,7 @@ jobs:
         run: dotnet nuget disable source "Microsoft Visual Studio Offline Packages"
 
       - name: Build with .NET Framework
-        run: dotnet publish -c Release -f net48 -o out/${{ github.event.repository.name }}-generic-netf
+        run: dotnet publish -c Release -f net481 -o out/${{ github.event.repository.name }}-generic-netf
 
       - name: Upload generic-netf artifacts
         uses: actions/upload-artifact@v3
