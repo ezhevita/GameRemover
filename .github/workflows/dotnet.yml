@@ -19,7 +19,7 @@ jobs:
         run: git submodule update --init --recursive
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
@@ -45,7 +45,7 @@ jobs:
         run: git submodule update --init --recursive
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
 
