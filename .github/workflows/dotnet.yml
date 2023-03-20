@@ -68,13 +68,13 @@ jobs:
 
     steps:
       - name: Download generic artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@v3.0.2
         with:
           name: ${{ github.event.repository.name }}-generic
           path: out/${{ github.event.repository.name }}-generic
 
       - name: Download generic-netf artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@v3.0.2
         with:
           name: ${{ github.event.repository.name }}-generic-netf
           path: out/${{ github.event.repository.name }}-generic-netf
