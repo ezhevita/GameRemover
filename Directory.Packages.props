@@ -1,7 +1,7 @@
 <Project>
 
 	<ItemGroup>
-		<PackageVersion Include="AngleSharp" Version="1.0.6" />
+		<PackageVersion Include="AngleSharp" Version="1.0.7" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
