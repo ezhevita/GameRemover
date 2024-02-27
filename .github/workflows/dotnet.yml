@@ -57,6 +57,6 @@ jobs:
         id: github_release
         uses: ncipollo/release-action@v1.13.0
         with:
-          artifacts: "out/*"
+          artifacts: "out/*.zip"
           makeLatest: true
-          release_name: ${{ github.event.repository.name }} V${{ github.ref_name }}
+          name: ${{ github.event.repository.name }} V${{ github.ref_name }}
