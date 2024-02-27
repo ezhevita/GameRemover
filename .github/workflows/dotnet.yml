@@ -24,7 +24,7 @@ jobs:
         run: dotnet restore
 
       - name: Build with .NET Core
-        run: dotnet publish -c Release -f net8.0 -o out/${{ github.event.repository.name }}
+        run: dotnet publish ${{ github.event.repository.name }} -c Release -f net8.0 -o out/${{ github.event.repository.name }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -55,19 +55,8 @@ jobs:
 
       - name: Create GitHub release
         id: github_release
-        uses: actions/create-release@v1.1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1.13.0
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.event.repository.name }} V${{ github.ref }}
-
-      - name: Upload artifacts to GitHub release
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.github_release.outputs.upload_url }}
-          asset_path: out/generic.zip
-          asset_name: generic.zip
-          asset_content_type: application/zip
+          artifacts: "out/*"
+          makeLatest: true
+          release_name: ${{ github.event.repository.name }} V${{ github.ref_name }}
