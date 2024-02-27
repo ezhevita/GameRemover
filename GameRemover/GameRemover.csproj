@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<PackageReference Include="AngleSharp" IncludeAssets="compile" />
-		<PackageReference Include="JetBrains.Annotations" IncludeAssets="compile" />
-		<PackageReference Include="System.Composition.AttributedModel" IncludeAssets="compile" />
-		<ProjectReference Include="..\ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj" Private="false" ExcludeAssets="all" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-		<PackageReference Include="IndexRange" IncludeAssets="compile" />
+		<PackageReference Include="AngleSharp" IncludeAssets="compile"/>
+		<PackageReference Include="JetBrains.Annotations" IncludeAssets="compile"/>
+		<PackageReference Include="System.Composition.AttributedModel" IncludeAssets="compile"/>
+		<ProjectReference Include="..\ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj" Private="false" ExcludeAssets="all"/>
 	</ItemGroup>
 
 </Project>

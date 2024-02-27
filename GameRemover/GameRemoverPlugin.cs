@@ -4,6 +4,7 @@ using System.Composition;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
 using ArchiSteamFarm.Core;
@@ -22,6 +23,10 @@ namespace GameRemover;
 [UsedImplicitly]
 public class GameRemoverPlugin : IBotCommand2
 {
+	private static readonly CompositeFormat ErrorIsInvalid = CompositeFormat.Parse(Strings.ErrorIsInvalid);
+	private static readonly CompositeFormat ErrorObjectIsNull = CompositeFormat.Parse(Strings.ErrorObjectIsNull);
+	private static readonly CompositeFormat BotNotFound = CompositeFormat.Parse(Strings.BotNotFound);
+
 	public Task OnLoaded()
 	{
 		ASF.ArchiLogger.LogGenericInfo($"{Name} by ezhevita | Support & source code: https://github.com/ezhevita/{Name}");
@@ -59,30 +64,29 @@ public class GameRemoverPlugin : IBotCommand2
 		{
 			if (!uint.TryParse(appIDText, out var appID) || (appID == 0) || !appIDs.Add(appID))
 			{
-				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorIsInvalid, appIDText));
+				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, ErrorIsInvalid, appIDText));
 			}
 		}
 
 		ushort successCount = 0;
 		foreach (var appID in appIDs)
 		{
-			const string RequestDeleteGamePage = "/en/wizard/HelpWithGameIssue/?appid={0}&issueid=123";
-			Uri uriDeleteGamePage = new(ArchiWebHandler.SteamHelpURL, string.Format(CultureInfo.InvariantCulture, RequestDeleteGamePage, appID));
+			Uri uriDeleteGamePage = new(ArchiWebHandler.SteamHelpURL, $"/en/wizard/HelpWithGameIssue/?appid={appID}&issueid=123");
 			using var responseDeleteGamePage = (await bot.ArchiWebHandler.UrlGetToHtmlDocumentWithSession(uriDeleteGamePage).ConfigureAwait(false))?.Content;
 			if (responseDeleteGamePage == null)
 			{
-				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorObjectIsNull, nameof(responseDeleteGamePage)));
+				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, ErrorObjectIsNull, nameof(responseDeleteGamePage)));
 			}
 
 			var node = responseDeleteGamePage.SelectSingleNode<IElement>("//input[@id='packageid']");
 			if (node == null)
 			{
-				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorObjectIsNull, nameof(node)));
+				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, ErrorObjectIsNull, nameof(node)));
 			}
 
 			if (!uint.TryParse(node.GetAttribute("value"), out var packageID) || (packageID == 0))
 			{
-				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorIsInvalid, nameof(packageID)));
+				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, ErrorIsInvalid, nameof(packageID)));
 			}
 
 			Dictionary<string, string> data = new(3)
@@ -106,7 +110,7 @@ public class GameRemoverPlugin : IBotCommand2
 		var bots = Bot.GetBots(botNames);
 		if ((bots == null) || (bots.Count == 0))
 		{
-			return access >= EAccess.Owner ? Commands.FormatStaticResponse(string.Format(CultureInfo.CurrentCulture, Strings.BotNotFound, botNames)) : null;
+			return access >= EAccess.Owner ? Commands.FormatStaticResponse(string.Format(CultureInfo.CurrentCulture, BotNotFound, botNames)) : null;
 		}
 
 		var results = await Utilities.InParallel(bots.Select(bot => ResponseDeleteGame(bot, Commands.GetProxyAccess(bot, access, steamID), appIDsText))).ConfigureAwait(false);
