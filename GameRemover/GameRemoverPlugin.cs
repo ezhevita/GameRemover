@@ -73,7 +73,7 @@ public class GameRemoverPlugin : IBotCommand2
 				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorObjectIsNull, nameof(responseDeleteGamePage)));
 			}
 
-			var node = responseDeleteGamePage.SelectSingleNode<IElement>("//input[@id='packageid']");
+			var node = responseDeleteGamePage.QuerySelector("input[id='packageid']");
 			if (node == null)
 			{
 				return bot.Commands.FormatBotResponse(string.Format(CultureInfo.CurrentCulture, Strings.ErrorObjectIsNull, nameof(node)));
