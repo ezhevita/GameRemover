@@ -1,9 +1,3 @@
 <Project>
-
-	<ItemGroup>
-		<PackageVersion Include="AngleSharp" Version="1.2.0" />
-	</ItemGroup>
-
 	<Import Project="ArchiSteamFarm/Directory.Packages.props" />
-
 </Project>
