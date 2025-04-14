@@ -5,7 +5,7 @@
 	<PropertyGroup>
 		<Description>ASF plugin to remove games from account.</Description>
 		<NoWarn>$(NoWarn),CA1863</NoWarn>
-		<Version>2.3.0</Version>
+		<Version>2.3.1</Version>
 	</PropertyGroup>
 
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))"/>
