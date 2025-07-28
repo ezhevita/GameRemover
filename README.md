@@ -1,3 +1,5 @@
+# This plugin is deprecated, use `rmlicense` command in ASF.
+
 # GameRemover
 ASF plugin to remove games from account.
 
